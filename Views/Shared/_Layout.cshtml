@@ -24,10 +24,14 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
-                   @*      <li class="nav-item">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Movie" asp-action="Index">Index</a>
+                        </li>
+
+                        @*      <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Movie" asp-action="Index">Movie</a>
                         </li> *@
                     </ul>
@@ -77,22 +81,22 @@
 
     <!-- Alert Auto-Dismiss Script -->
     <script>
-        $(document).ready(function () {
-            // Success alert को 5 seconds के बाद auto-dismiss करना
-            $('#successAlert').delay(5000).slideUp('slow', function () {
-                $(this).alert('close');
-            });
+            $(document).ready(function() {
+                // Success alert को 5 seconds के बाद auto-dismiss करना
+                $('#successAlert').delay(5000).slideUp('slow', function() {
+                    $(this).alert('close');
+                });
 
-            // Error alert को 7 seconds के बाद auto-dismiss करना
-            $('#errorAlert').delay(7000).slideUp('slow', function () {
-                $(this).alert('close');
-            });
+                // Error alert को 7 seconds के बाद auto-dismiss करना
+                $('#errorAlert').delay(7000).slideUp('slow', function() {
+                    $(this).alert('close');
+                });
 
-            // Warning alert को 6 seconds के बाद auto-dismiss करना
-            $('#warningAlert').delay(6000).slideUp('slow', function () {
-                $(this).alert('close');
+                // Warning alert को 6 seconds के बाद auto-dismiss करना
+                $('#warningAlert').delay(6000).slideUp('slow', function() {
+                    $(this).alert('close');
+                });
             });
-        });
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
