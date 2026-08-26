@@ -52,9 +52,45 @@ public class MovieController : Controller
     {
         if (ModelState.IsValid)
         {
-            _context.Add(movie);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                // Stored Procedure के माध्यम से insert करना
+                int insertedId = await _context.InsertMovieSPAsync(
+                    movie.Title,
+                    movie.ReleaseDate,
+                    movie.Genre,
+                    movie.Price
+                );
+
+                if (insertedId > 0)
+                {
+                    // Success - TempData में message set करना
+                    TempData["SuccessMessage"] = $"Movie '{movie.Title}' inserted successfully!";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Error inserting movie via stored procedure.";
+                    return View(movie);
+                }
+            }
+            catch (Exception ex)
+            {
+                // अगर SP fail हो तो regular insert करना (fallback)
+                Console.WriteLine($"SP Insert failed: {ex.Message}. Using regular insert.");
+                try
+                {
+                    _context.Add(movie);
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = $"Movie '{movie.Title}' inserted successfully!";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception fallbackEx)
+                {
+                    TempData["ErrorMessage"] = $"Error inserting movie: {fallbackEx.Message}";
+                    return View(movie);
+                }
+            }
         }
         return View(movie);
     }
@@ -155,7 +191,6 @@ public class MovieController : Controller
     //GET: Movies
     public async Task<IActionResult> Index(string movieGenre, string searchString)
     {
-
         if (_context.Movie == null)
         {
             return Problem("Entity set 'MvcMovieContext.Movie'  is null.");

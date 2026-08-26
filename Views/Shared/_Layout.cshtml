@@ -36,6 +36,31 @@
         </nav>
     </header>
     <div class="container">
+        <!-- Alert Messages -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" id="successAlert">
+                <strong>Success!</strong> @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" id="errorAlert">
+                <strong>Error!</strong> @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @if (TempData["WarningMessage"] != null)
+        {
+            <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert" id="warningAlert">
+                <strong>Warning!</strong> @TempData["WarningMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -49,6 +74,27 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Alert Auto-Dismiss Script -->
+    <script>
+        $(document).ready(function () {
+            // Success alert को 5 seconds के बाद auto-dismiss करना
+            $('#successAlert').delay(5000).slideUp('slow', function () {
+                $(this).alert('close');
+            });
+
+            // Error alert को 7 seconds के बाद auto-dismiss करना
+            $('#errorAlert').delay(7000).slideUp('slow', function () {
+                $(this).alert('close');
+            });
+
+            // Warning alert को 6 seconds के बाद auto-dismiss करना
+            $('#warningAlert').delay(6000).slideUp('slow', function () {
+                $(this).alert('close');
+            });
+        });
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
