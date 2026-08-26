@@ -1,0 +1,100 @@
+﻿@using Microsoft.AspNetCore.Hosting
+@inject IWebHostEnvironment HostEnvironment
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Error Header -->
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">
+                    <i class="fas fa-exclamation-circle"></i> Error Occurred
+                </h4>
+                <p class="mb-0">
+                    An unexpected error has occurred while processing your request.
+                </p>
+            </div>
+
+            <!-- Error Details -->
+            <div class="card mb-4" style="border-left: 4px solid #dc3545;">
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(Model.Message))
+                    {
+                        <div class="mb-3">
+                            <h5 class="text-danger">
+                                <strong>Error Message:</strong>
+                            </h5>
+                            <p class="font-monospace" style="background-color: #f8f9fa; padding: 10px; border-radius: 4px;">
+                                @Html.Encode(Model.Message)
+                            </p>
+                        </div>
+                    }
+
+                    @if (Model.ShowRequestId)
+                    {
+                        <div class="mb-3">
+                            <h5>
+                                <strong>Request ID:</strong>
+                            </h5>
+                            <p class="font-monospace" style="background-color: #f8f9fa; padding: 10px; border-radius: 4px;">
+                                <code>@Model.RequestId</code>
+                            </p>
+                            <small class="text-muted">
+                                Please provide this ID when reporting issues.
+                            </small>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.StackTrace))
+                    {
+                        <div class="mb-3">
+                            <h5>
+                                <strong>Stack Trace (Development Only):</strong>
+                            </h5>
+                            <pre class="font-monospace" style="background-color: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; max-height: 300px; overflow-y: auto;">@Model.StackTrace</pre>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Development Info -->
+            @if (HostEnvironment.IsDevelopment())
+            {
+                <div class="alert alert-warning" role="alert">
+                    <h5>
+                        <strong>Development Mode Information</strong>
+                    </h5>
+                    <p>
+                        You are viewing this detailed error because the application is running in <strong>Development</strong> mode.
+                    </p>
+                    <ul class="mb-0">
+                        <li>Full exception details are shown above</li>
+                        <li>Stack trace is available for debugging</li>
+                        <li>This detailed view will NOT appear in Production</li>
+                    </ul>
+                </div>
+            }
+
+            <!-- Actions -->
+            <div class="mt-4">
+                <a href="@Url.Action("Index", "Home")" class="btn btn-primary me-2">
+                    <i class="fas fa-home"></i> Go to Home
+                </a>
+                <button class="btn btn-secondary" onclick="window.history.back()">
+                    <i class="fas fa-arrow-left"></i> Go Back
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .font-monospace {
+        font-family: 'Courier New', Courier, monospace;
+        word-break: break-word;
+        white-space: pre-wrap;
+    }
+</style>
